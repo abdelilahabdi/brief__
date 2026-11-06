@@ -51,3 +51,30 @@ function renderRepairs(repairs) {
 }
 
 renderRepairs(initialRepairs) ;
+
+
+function filterRepairs(repairs, status) {
+  const filteredRepairs = [] ;
+
+  for (let i = 0 ; i < repairs.length ; i++) {
+    const repair = repairs[i] ;
+
+    if(status === "tous" || repair.status === status) {
+      filteredRepairs.push(repair) ;
+    }
+  }
+
+  return filteredRepairs ;
+}
+
+const inProgress = filterRepairs(initialRepairs, "en_cours") ;
+
+console.log(inProgress) ;
+console.log(inProgress.length) ;
+
+const allRepairs = filterRepairs(initialRepairs, "tous") ;
+
+console.log(allRepairs) ;
+console.log(allRepairs.length) ;
+
+
