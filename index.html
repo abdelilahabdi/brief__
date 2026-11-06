@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fixit</title>
+  </head>
+
+
+  <body>
+
+    <h1>FixIt - Suivi reparations</h1>
+
+    <label for="status-filter">Filtrer par statut :</label>
+    <select id="status-filter">
+      <option value="tous">Tous</option>
+      <option value="recu">Recu</option>
+      <option value="en_cours">En cours</option>
+      <option value="termine">Terminé</option>
+    </select>
+
+    <form id="repair-form">
+      <label for="device-input">Appareil :</label>
+      <input id="device_input" type="text" required />
+      <button type="submit">Ajouter</button>
+    </form>
+
+    <p id="repair-count"></p>
+
+    <ul id="repair-list"></ul>
+
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
