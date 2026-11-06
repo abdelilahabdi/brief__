@@ -1,5 +1,5 @@
 import { initialRepairs  } from "./data.js";
-
+let repairs = initialRepairs.slice() ;
 //console.log(initialRepairs[1].device) ;
 
 function getRepair(repairs, id) {
@@ -59,7 +59,8 @@ function renderRepairs(repairs) {
   }
 }
 
- renderRepairs(initialRepairs) ;
+renderRepairs(repairs);
+ //renderRepairs(initialRepairs) ;
 //renderRepairs([]);
 
 function filterRepairs(repairs, status) {
@@ -91,13 +92,17 @@ console.log(allRepairs.length) ;
 const statusFilter = document.getElementById("status-filter");
 
 
-statusFilter.addEventListener("change" , function () {
+//statusFilter.addEventListener("change" , function () {
+function updateDisplay() {
   const selectedStatus = statusFilter.value ;
 
-  const visibleRepairs = filterRepairs(initialRepairs, selectedStatus);
+  const visibleRepairs = filterRepairs(repairs, selectedStatus);
 
   renderRepairs(visibleRepairs);
-});
+}
+
+statusFilter.addEventListener("change", updateDisplay);
+
 
 
 function findRepairsByDevice(repairs, device) {
@@ -149,3 +154,80 @@ console.log(testRepairs) ;
 console.log(testRepairs.length);
 console.log(initialRepairs.length) ;
 console.log(addRepair(initialRepairs, " ")) ;
+
+
+const repairForm = document.getElementById("repair-form");
+const deviceInput = document.getElementById("device-input");
+
+
+repairForm.addEventListener("submit", function (event){
+  event.preventDefault() ;
+
+  const newRepairs = addRepair(repairs, deviceInput.value);
+
+  if(newRepairs === null) {
+    alert("veuillez saisir un appareil");
+    return;
+  }
+
+  repairs = newRepairs;
+
+  updateDisplay() ;
+
+  deviceInput.value = "" ;
+});
+
+
+function changeStatus(repairs, id, newStatus) {
+  if(
+    newStatus !== "recu" && newStatus !== "en_cours" && newStatus !== "termine"
+  ) {
+    console.log("Statut non autorisé");
+    return null;
+  }
+
+  const repairToChange = getRepair(repairs, id) ;
+
+  if(repairToChange === null) {
+    console.log("reparation introuvable") ;
+    return null;
+  }
+
+  const newRepairs = [] ;
+
+  for(let i = 0 ; i < repairs.length ; i++) {
+    const repair = repairs[i] ;
+
+    if(repair.id === id) {
+      const updatedRepair = {
+        id: repair.id ,
+        device: repair.device,
+        status: newStatus
+      };
+
+      newRepairs.push(updatedRepair);
+    } else {
+      newRepairs.push(repair);
+    }
+  }
+  return newRepairs;
+}
+
+const changedRepairs = changeStatus(initialRepairs, "R2" , "termine") ;
+
+if (changedRepairs !== null) {
+  console.log(getRepair(changedRepairs, "R2").status);
+
+  console.log(getRepair(changedRepairs, "R3").status);
+
+  console.log(getRepair(initialRepairs, "R2").status);
+
+
+  console.log(changedRepairs === initialRepairs) ;
+
+}
+
+console.log(changeStatus(initialRepairs, "R99", "termine"));
+
+
+
