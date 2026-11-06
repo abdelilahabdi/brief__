@@ -121,3 +121,31 @@ function findRepairsByDevice(repairs, device) {
 console.log(findRepairsByDevice (initialRepairs , "Telephone")) ;
 console.log(findRepairsByDevice (initialRepairs , "Radio"));
 
+
+
+function addRepair(repairs , device) {
+  const deviceName = device.trim() ;
+
+  if(deviceName === "") {
+    return null ;
+  }
+
+  const newRepair = {
+    id: crypto.randomUUID() ,
+    device: deviceName,
+    status: "recu" 
+  };
+
+  const newRepairs = repairs.slice() ;
+  newRepairs.push(newRepair) ;
+
+
+  return newRepairs ;
+}
+
+const testRepairs = addRepair(initialRepairs, " Ecran ") ;
+
+console.log(testRepairs) ;
+console.log(testRepairs.length);
+console.log(initialRepairs.length) ;
+console.log(addRepair(initialRepairs, " ")) ;
