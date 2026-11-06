@@ -1,5 +1,6 @@
 import { initialRepairs  } from "./data.js";
-let repairs = initialRepairs.slice() ;
+let repairs = loadRepairs() ;
+//let repairs = initialRepairs.slice() ;
 //console.log(initialRepairs[1].device) ;
 
 function getRepair(repairs, id) {
@@ -183,6 +184,7 @@ repairForm.addEventListener("submit", function (event){
   }
 
   repairs = newRepairs;
+  saveRepairs(repairs);
 
   updateDisplay() ;
 
@@ -250,6 +252,52 @@ function finishRepair(id) {
   return ;
  }
 
- repairs = newRepairs ;
+ repairs = newRepairs;
+ saveRepairs(repairs);
  updateDisplay() ;
 }
+
+
+
+function saveRepairs(repairs) {
+  const repairsText = JSON.stringify(repairs) ;
+
+  localStorage.setItem("fixit-repairs" , repairsText) ;
+}
+
+function loadRepairs() {
+  const savedRepairs = localStorage.getItem("fixit-repairs");
+
+  if(savedRepairs === null) {
+    return initialRepairs.slice() ;
+
+  }
+
+  return JSON.parse(savedRepairs);
+}
+
+
+
+
+
+////////////////////////
+
+
+// function finish(repairs, id) {
+//   const repair = repairs.find(r => r.id === id);
+//   repair.status = "termine" ;
+
+//   return repairs;
+// }
+
+// const exampleRepairs = [
+//   {id: "T1" , device: "Radio" , status: "en_cours"}
+// ];
+
+
+//const result = finish(exampleRepairs, "T1");
+// const result = changeStatus(exampleRepairs, "T1", "termine");
+
+// console.log(exampleRepairs[0].status);
+// console.log(result[0].status); 
+// console.log(result === exampleRepairs) ;
