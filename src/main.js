@@ -54,6 +54,18 @@ function renderRepairs(repairs) {
     const listItem = document.createElement("li") ;
 
     listItem.textContent = repair.device + " - " + statusText ;
+    
+    if (repair.status !== "termine") {
+      const finishButton = document.createElement("button");
+
+      finishButton.type = "button" ;
+      finishButton.textContent = "Terminer" ;
+
+      finishButton.addEventListener("click", function () {
+        finishRepair(repair.id);
+      });
+      listItem.appendChild(finishButton);
+    }
 
     repairList.appendChild(listItem);
   }
@@ -230,4 +242,14 @@ if (changedRepairs !== null) {
 console.log(changeStatus(initialRepairs, "R99", "termine"));
 
 
+function finishRepair(id) {
+ const newRepairs = changeStatus(repairs,id , "termine");
 
+ if (newRepairs === null) {
+  alert("impossible de terminer cette reparation");
+  return ;
+ }
+
+ repairs = newRepairs ;
+ updateDisplay() ;
+}
