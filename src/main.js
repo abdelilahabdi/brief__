@@ -31,6 +31,15 @@ function renderRepairs(repairs) {
 
   repairCount.textContent = "Nombre de demandes : " + repairs.length ;
 
+  if (repairs.length === 0) {
+    const message = document.createElement("li") ;
+    message.textContent = "Aucune reparation";
+    repairList.appendChild(message) ;
+    return ;
+  }
+
+
+
   for (let i = 0 ; i < repairs.length ; i++) {
     const repair = repairs[i] ;
 
@@ -50,8 +59,8 @@ function renderRepairs(repairs) {
   }
 }
 
-renderRepairs(initialRepairs) ;
-
+ renderRepairs(initialRepairs) ;
+//renderRepairs([]);
 
 function filterRepairs(repairs, status) {
   const filteredRepairs = [] ;
@@ -77,4 +86,38 @@ const allRepairs = filterRepairs(initialRepairs, "tous") ;
 console.log(allRepairs) ;
 console.log(allRepairs.length) ;
 
+
+
+const statusFilter = document.getElementById("status-filter");
+
+
+statusFilter.addEventListener("change" , function () {
+  const selectedStatus = statusFilter.value ;
+
+  const visibleRepairs = filterRepairs(initialRepairs, selectedStatus);
+
+  renderRepairs(visibleRepairs);
+});
+
+
+function findRepairsByDevice(repairs, device) {
+  const findRepairs = [] ;
+
+  for ( let i = 0 ; i < repairs.length ; i++) {
+    const repair = repairs[i] ;
+
+    if (repair.device === device) {
+      findRepairs.push(repair) ;
+
+      
+    }
+    
+  }
+  return findRepairs ;
+
+  
+}
+
+console.log(findRepairsByDevice (initialRepairs , "Telephone")) ;
+console.log(findRepairsByDevice (initialRepairs , "Radio"));
 
