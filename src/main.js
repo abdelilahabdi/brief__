@@ -192,6 +192,8 @@ repairForm.addEventListener("submit", function (event){
 });
 
 
+
+
 function changeStatus(repairs, id, newStatus) {
   if(
     newStatus !== "recu" && newStatus !== "en_cours" && newStatus !== "termine"
@@ -301,3 +303,57 @@ function loadRepairs() {
 // console.log(exampleRepairs[0].status);
 // console.log(result[0].status); 
 // console.log(result === exampleRepairs) ;
+
+
+
+/////
+function changeDevice (repairs, id, newDevice) {
+  const deviceName = newDevice.trim();
+  if (deviceName === "") {
+    console.log("nom de l'appareil obligatoire");
+    return null;
+  }
+
+  const repairToChange = getRepair(repairs , id) ;
+
+  if(repairToChange === null) {
+    console.log("reparation introuvable");
+    return null;
+  }
+
+  const newRepairs = [] ;
+  for(let i = 0 ; i < repairs.length ; i++) {
+
+    const repair = repairs[i] ;
+
+    if(repair.id === id) {
+      const updatedRepair = {
+        id: repair.id ,
+        status: repair.status,
+         device: deviceName
+      };
+
+      newRepairs.push(updatedRepair);
+    } else {
+      newRepairs.push(repair);
+    }
+  }
+  return newRepairs;
+  }
+
+  const renamedRepairs = changeDevice (
+    initialRepairs,
+    "R3",
+    " Imprimante canon "
+
+  );
+
+  if(renamedRepairs !== null) {
+    console.log(getRepair(renamedRepairs, "R3").device);
+
+    console.log(getRepair(initialRepairs, "R3").device);
+
+    console.log(getRepair(renamedRepairs, "R3").status);
+    
+    console.log(renamedRepairs === initialRepairs);
+  }
